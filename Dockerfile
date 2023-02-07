@@ -1,9 +1,10 @@
-FROM tomcat
+FROM tomcat:9.0
 RUN apt-get update
-RUN apt-get install git -y
-RUN apt-get install default-jdk -y
-RUN apt install maven -y
-RUN git clone https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
-WORKDIR boxfuse-sample-java-war-hello/
+RUN apt-get install git maven -y
+WORKDIR /tmp/
+RUN git clone https://github.com/miladhub/calculator-servlet-example.git
+WORKDIR /tmp/calculator-servlet-example
 RUN mvn package
+RUN cp /tmp/calculator-servlet-example/target/mycalcwebapp.war $CATALINA_HOME/webapps/
+EXPOSE 8080
 CMD ["catalina.sh", "run"]
